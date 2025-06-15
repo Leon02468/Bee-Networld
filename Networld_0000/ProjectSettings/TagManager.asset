@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags:
+  - Ground
+  - Ladder
+  - Platform
+  - Honey
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Ground
+  - Platform
+  - Ladder
+  - Player
+  - Wall
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 1416533483
+    locked: 0
+  - name: Platform
+    uniqueID: 2883300249
+    locked: 0
+  - name: Object
+    uniqueID: 3127921669
+    locked: 0
+  - name: Ladder
+    uniqueID: 685526963
+    locked: 0
+  - name: Player
+    uniqueID: 2178624797
+    locked: 0
+  - name: Wall
+    uniqueID: 236826593
+    locked: 0
+  - name: Foreground
+    uniqueID: 202730363
+    locked: 0
+  - name: UI
+    uniqueID: 2173878949
+    locked: 0
+  m_RenderingLayers:
+  - Default

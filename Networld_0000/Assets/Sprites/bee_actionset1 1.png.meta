@@ -1,0 +1,415 @@
+fileFormatVersion: 2
+guid: 73a986fde24aebe44b6d613a7ea621a3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3069491842370041072
+    second: bee_actionset1 1_0
+  - first:
+      213: -1583722556377629089
+    second: bee_actionset1 1_1
+  - first:
+      213: -3894794010709061260
+    second: bee_actionset1 1_2
+  - first:
+      213: 9140799270468389654
+    second: bee_actionset1 1_3
+  - first:
+      213: -9169274542970774388
+    second: bee_actionset1 1_4
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: bee_rightideal
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -6, y: -8}
+        - {x: 6, y: -8}
+        - {x: 6, y: 6}
+        - {x: -6, y: 6}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01b0396ae69f665d0800000000000000
+      internalID: -3069491842370041072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bee_rightwalk1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -5, y: -8}
+        - {x: 6, y: -8}
+        - {x: 6, y: 6}
+        - {x: -5, y: 6}
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5e7654d9bc750ae0800000000000000
+      internalID: -1583722556377629089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bee_leftwalk2
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -6, y: -8}
+        - {x: 5, y: -8}
+        - {x: 5, y: 6}
+        - {x: -6, y: 6}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4711e569b79e2f9c0800000000000000
+      internalID: -3894794010709061260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bee_leftideal
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -6, y: -8}
+        - {x: 6, y: -8}
+        - {x: 6, y: 6}
+        - {x: -6, y: 6}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61b0b67a184aade70800000000000000
+      internalID: 9140799270468389654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bee_rightideal1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -6, y: -8}
+        - {x: 6, y: -8}
+        - {x: 6, y: 5}
+        - {x: -6, y: 5}
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8cd132526130c080800000000000000
+      internalID: -9169274542970774388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bee_rightideal2
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -6, y: -8}
+        - {x: 6, y: -8}
+        - {x: 6, y: 5}
+        - {x: -6, y: 5}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bd8dc5a88cab294bb92e3b65c71567d
+      internalID: -50624817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bee_rightwalk2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -5, y: -8}
+        - {x: 6, y: -8}
+        - {x: 6, y: 6}
+        - {x: -5, y: 6}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71eeba03903436144a7e6c101a381428
+      internalID: 1174451367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bee_leftwalk1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -6, y: -8}
+        - {x: 5, y: -8}
+        - {x: 5, y: 6}
+        - {x: -6, y: 6}
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce7377774c1ea374780cea295bb051fe
+      internalID: -882968090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bee_leftideal2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -6, y: -8}
+        - {x: 6, y: -8}
+        - {x: 6, y: 5}
+        - {x: -6, y: 5}
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6ebf3b6e6598564a8d6d4be7559301d
+      internalID: 472122045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bee_leftideal1
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -6, y: -8}
+        - {x: 6, y: -8}
+        - {x: 6, y: 5}
+        - {x: -6, y: 5}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18ab210c27dcc8347a152333f46f28f6
+      internalID: -1203798517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e9a513a3c2f5494aaaffd97fbd8bf47
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      bee_leftideal: 9140799270468389654
+      bee_leftideal1: -1203798517
+      bee_leftideal2: 472122045
+      bee_leftwalk1: -882968090
+      bee_leftwalk2: -3894794010709061260
+      bee_rightideal: -3069491842370041072
+      bee_rightideal1: -9169274542970774388
+      bee_rightideal2: -50624817
+      bee_rightwalk1: -1583722556377629089
+      bee_rightwalk2: 1174451367
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
