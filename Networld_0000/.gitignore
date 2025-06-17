@@ -1,3 +1,4 @@
+# Unity generated folders
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
@@ -5,7 +6,17 @@
 [Bb]uilds/
 [Ll]ogs/
 MemoryCaptures/
+CrashReports/
+.collab/
 
+# User-specific settings
+UserSettings/
+
+# IDE-specific files
+.vscode/
+.idea/
+.vs/
+*.code-workspace
 *.csproj
 *.unityproj
 *.sln
@@ -16,18 +27,25 @@ MemoryCaptures/
 *.pidb
 *.booproj
 *.svd
+*.iml
 
-.vscode/
-.idea/
-*.code-workspace
-
+# OS-specific files
 .DS_Store
 Thumbs.db
 
+# Unity backup/autosave
+*.bak
+*.backup
+*.tmp
+
+# Logs
 *.log
+
+# Builds
 *.apk
 *.aab
 *.exe
-*.mdb
 
+# Misc
+*.mdb
 *.DotSettings.user
