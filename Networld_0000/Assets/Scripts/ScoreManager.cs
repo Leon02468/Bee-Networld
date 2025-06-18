@@ -1,27 +1,28 @@
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
-    public TextMeshProUGUI scoreText;
+    [SerializeField] private Slider scoreProgressBar;
 
-    private int score = 0;
+    private int maxScore = 100;
+    private int currentScore = 0;
 
     public void AddScore(int value)
     {
-        score += value;
-        UpdateUI();
+        currentScore += value;
+        currentScore = Mathf.Min(currentScore, maxScore);
+
+        scoreProgressBar.value = currentScore;
     }
 
     public void ResetScore()
     {
-        score = 0;
-        UpdateUI();
+        currentScore = 0;
     }
 
-    void UpdateUI()
+    public int GetCurrentScore()
     {
-        if (scoreText != null)
-            scoreText.text = $"Score: {score}";
+        return currentScore;
     }
 }

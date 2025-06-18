@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     private float verticalInput;
-    private Vector2 moveInput;
+    private float horizontalInput;
 
     private void Start()
     {
@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    private void Update()
+    void Update()
     {
         if (isClimbing)
         {
@@ -47,31 +47,45 @@ public class PlayerController : MonoBehaviour
             if (verticalInput < -0.1f && (transform.position.y <= ladder.GetBottomY() + 1f))
             {
                 StopClimbing();
-                rb.linearVelocity = new Vector2(moveInput.x * moveSpeed, rb.linearVelocity.y);
+                rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
             }
             else if (verticalInput > 0.1f && (transform.position.y >= ladder.GetTopY() - 1f))
             {
                 StopClimbing();
-                rb.linearVelocity = new Vector2(moveInput.x * moveSpeed, rb.linearVelocity.y);
+                rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
             }
         }
         else
         {
             rb.gravityScale = 8f;
-            rb.linearVelocity = new Vector2(moveInput.x * moveSpeed, rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
         }
-        anim.SetBool("isClimbing", isNearLadder);
-        anim.SetBool("isJumping", !isGrounded);
-        anim.SetBool("isWalking", rb.linearVelocity.magnitude > 0);
+
+        anim.SetBool("isJumping", !isGrounded && !isClimbing);
+        anim.SetBool("isClimbing", !isGrounded && isClimbing);
+    }
+
+    private void FixedUpdate()
+    {
+        anim.SetFloat("xVelocity", Mathf.Abs(rb.linearVelocityX));
+
+        if (!isGrounded)
+        {
+            if (isClimbing)
+                anim.SetFloat("yVelocity", Mathf.Abs(rb.linearVelocityY));
+            else
+                anim.SetFloat("yVelocity", rb.linearVelocityY);
+        }
     }
 
     public void Move(InputAction.CallbackContext context)
     {
-        if (moveInput.x > 0.01f)
+        horizontalInput = context.ReadValue<Vector2>().x;
+        if (horizontalInput > 0.01f)
         {
             transform.localScale = new Vector3(1, 1, 1);
         }
-        else if (moveInput.x < -0.01f)
+        else if (horizontalInput < -0.01f)
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
@@ -80,7 +94,6 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetBool("isWalking", false);
         }
-        moveInput = context.ReadValue<Vector2>();
     }
 
     public void Jump(InputAction.CallbackContext context)

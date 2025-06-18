@@ -14,7 +14,7 @@ public class BeeManager : MonoBehaviour
     private int currentBeeIndex = 0;
     private float delaySpawn = 2.5f;
 
-    public BeeController CurrentBee => activeBees.Count > 0 ? activeBees[currentBeeIndex] : null;
+    public BeeController CurrentBee => (activeBees.Count > 0 && currentBeeIndex >= 0) ? activeBees[currentBeeIndex] : null;
 
     public void InitBeeWave(string[] ipList)
     {
@@ -94,13 +94,20 @@ public class BeeManager : MonoBehaviour
         if (beeIPQueue.Count > 0)
         {
             StartCoroutine(SpawnBeeDelayed(slotIndex));
-        }
 
-        //fix selection
-        if (activeBees.Count > 0)
-        {
-            SetActiveBee(currentBeeIndex % activeBees.Count);
+            //fix selection
+            if (activeBees.Count > 0)
+                SetActiveBee(currentBeeIndex % activeBees.Count);
         }
+        else
+        {
+            Debug.Log("No more bees to spawn.");
+            if (activeBees.Count > 0)
+                SetActiveBee(currentBeeIndex % activeBees.Count);
+            else
+                currentBeeIndex = -1;
+        }
+        
     }
 
     private IEnumerator SpawnBeeDelayed(int slotIndex)

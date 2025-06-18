@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
         // TAB KEY to switch bee
         if (Keyboard.current.tabKey.wasPressedThisFrame)
         {
-            Debug.Log("Current bee:", beeManager.CurrentBee);
             beeManager.CycleBee();
         }
 
@@ -50,6 +49,7 @@ public class GameManager : MonoBehaviour
         if (Keyboard.current.enterKey.wasPressedThisFrame)
         {
             CheckAndSendBee();
+            Debug.Log("Score: " + scoreManager.GetCurrentScore());
         }
     }
 
@@ -67,7 +67,12 @@ public class GameManager : MonoBehaviour
 
     private void CheckAndSendBee()
     {
-        string playerIP = playerText.text.Trim(); // "192.168.0.1"
+        if (beeManager.CurrentBee == null)
+        {
+            Debug.LogWarning("No active bee to check!"); return;
+        }
+
+        string playerIP = playerText.text.Trim();
         string beeIP = beeManager.CurrentBee.targetIP;
 
         if (playerIP == beeIP)
