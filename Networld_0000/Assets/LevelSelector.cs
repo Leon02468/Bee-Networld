@@ -13,9 +13,9 @@ public class LevelSelector : MonoBehaviour
         LevelText.text = level.ToString(); // Set the text to the level number
     }
 
-    // Update is called once per frame
     public void OpenScene()
     {
+        GameManager.instance.selectedLevel = level; // Set the selected level in GameManager
         SceneManager.LoadScene("Level " + level.ToString()); // Load the LevelSelector scene
     }
 }

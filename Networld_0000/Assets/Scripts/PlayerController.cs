@@ -11,8 +11,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float moveSpeed;
     [SerializeField] public float jumpForce;
     [SerializeField] public float climbSpeed;
-    [SerializeField] private TextMeshProUGUI beeText;
-    [SerializeField] private TextMeshProUGUI playerText;
 
     private bool isGrounded;
     private bool isNearLadder;
@@ -88,11 +86,6 @@ public class PlayerController : MonoBehaviour
         else if (horizontalInput < -0.01f)
         {
             transform.localScale = new Vector3(-1, 1, 1);
-        }
-
-        if (context.canceled)
-        {
-            anim.SetBool("isWalking", false);
         }
     }
 

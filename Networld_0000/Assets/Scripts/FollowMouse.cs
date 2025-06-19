@@ -34,17 +34,17 @@ public class FollowMouse : MonoBehaviour
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
-
-        // Set walking animation
-        if (anim != null)
-        {
-            anim.SetBool("isWalking", Mathf.Abs(moveInput.x) > 0.5f);
-        }
     }
 
     void FixedUpdate()
     {
         // Only move horizontally, let physics handle collisions
         rb.linearVelocity = new Vector2(moveInput.x * moveSpeed, 0f);
+
+        // Set walking animation
+        if (anim != null)
+        {
+            anim.SetFloat("xVelocity", Mathf.Abs(moveInput.x));
+        }
     }
 }
