@@ -12,39 +12,35 @@ public class FollowMouse : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0f; // No gravity for side-to-side movement
+        rb.gravityScale = 0f;
         rb.freezeRotation = true;
     }
 
     void Update()
     {
-        // Get mouse position in world coordinates
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         float direction = mousePosition.x - transform.position.x;
-
-        // Determine movement direction (-1, 0, 1)
         moveInput.x = Mathf.Clamp(direction, -1f, 1f);
 
-        // Flip sprite based on direction
         if (moveInput.x > 0.01f)
-        {
             transform.localScale = new Vector3(1, 1, 1);
-        }
         else if (moveInput.x < -0.01f)
-        {
             transform.localScale = new Vector3(-1, 1, 1);
-        }
-
-        // Set walking animation
-        if (anim != null)
-        {
-            anim.SetBool("isWalking", Mathf.Abs(moveInput.x) > 0.5f);
-        }
     }
 
     void FixedUpdate()
     {
-        // Only move horizontally, let physics handle collisions
-        rb.linearVelocity = new Vector2(moveInput.x * moveSpeed, 0f);
+        rb.linearVelocity = new Vector2(moveInput.x * moveSpeed, 1f);
+    }
+
+    public void DisableFollowMouse()
+    {
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.Sleep();
+        }
+        enabled = false;
     }
 }
