@@ -11,8 +11,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float moveSpeed;
     [SerializeField] public float jumpForce;
     [SerializeField] public float climbSpeed;
-    [SerializeField] private TextMeshProUGUI beeText;
-    [SerializeField] private TextMeshProUGUI playerText;
 
     private bool isGrounded;
     private bool isNearLadder;
@@ -89,8 +87,6 @@ public class PlayerController : MonoBehaviour
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
-
-        // Removed isWalking animation parameter
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -184,20 +180,5 @@ public class PlayerController : MonoBehaviour
     {
         isClimbing = false;
         rb.gravityScale = 8f;
-    }
-
-    // --- Reset all movement variables and velocity when disabling ---
-    private void OnDisable()
-    {
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector2.zero;
-            rb.angularVelocity = 0f;
-            rb.Sleep();
-        }
-        horizontalInput = 0f;
-        verticalInput = 0f;
-        isClimbing = false;
-        jumpPressed = false;
     }
 }

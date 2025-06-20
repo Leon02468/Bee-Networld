@@ -2,8 +2,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using NUnit.Framework;
+using System.Collections.Generic;
 
-public class GameManager : MonoBehaviour
+public class GameplayManager : MonoBehaviour
 {
     [Header("UI References")]
     //public TextMeshProUGUI clockText;
@@ -18,7 +20,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        ipPool = GeneratBeeIPs(5);
+        TextAsset levelJson = GameManager.instance.GetLevelJson();
+        if (levelJson != null)
+        {
+            LevelData levelData = JsonUtility.FromJson<LevelData>(levelJson.text);
+            ipPool = BuildIPPoolFromLevel(levelData);
+        }
+        else
+            ipPool = GeneratBeeIPs(5);
         beeManager.InitBeeWave(ipPool);
         beeManager.StartBeeSequence();
     }
@@ -58,11 +67,24 @@ public class GameManager : MonoBehaviour
         string[] results = new string[count];
         for (int i = 0; i < count; i++)
         {
-            //results[i] = $"{Random.Range(1, 255)}.{Random.Range(0, 256)}.{Random.Range(0, 256)}.{Random.Range(1, 255)}";
-            //Testting with simple IPs
             results[i] = $"{Random.Range(1, 10)}.{Random.Range(0, 10)}.{Random.Range(0, 10)}.{Random.Range(1, 10)}";
         }
         return results;
+    }
+
+    private string[] BuildIPPoolFromLevel(LevelData level)
+    {
+        List<string> ipPool = new List<string>();
+
+        foreach (var entry in level.beeQueue)
+        {
+            for(int i = 0; i < entry.count; i++)
+            {
+                ipPool.Add(entry.ip);
+            }
+        }
+
+        return ipPool.ToArray();
     }
 
     private void CheckAndSendBee()
