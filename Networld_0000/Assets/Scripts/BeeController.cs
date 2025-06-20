@@ -17,12 +17,28 @@ public class BeeController : MonoBehaviour
     private Vector3 targetPosition;
     private bool entering = true;
     private bool exiting = false;
+    private Animator animator;
 
     void Awake()
     {
         visualRoot = transform.GetChild(1);
         ipText = GetComponentInChildren<TextMeshPro>();
+
+        // Unflip the sprite and ensure scale is positive
+        //var spriteRenderer = visualRoot.GetComponent<SpriteRenderer>();
+        //if (spriteRenderer != null)
+        //    spriteRenderer.flipX = false;
+
+        Vector3 scale = visualRoot.localScale;
+        scale.x = Mathf.Abs(scale.x);
+        visualRoot.localScale = scale;
+
+        // Ensure Animator always faces right
+        animator = visualRoot.GetComponent<Animator>();
+        if (animator != null)
+            animator.SetBool("FacingLeft", false);
     }
+
     void Update()
     {
         if (entering)
@@ -40,7 +56,7 @@ public class BeeController : MonoBehaviour
     public void SetVisualActive(bool isActive)
     {
         visualRoot.localScale = isActive ? activeScale : idleScale;
-        if(ipText != null)
+        if (ipText != null)
             ipText.gameObject.SetActive(isActive);
     }
 
@@ -51,6 +67,10 @@ public class BeeController : MonoBehaviour
         targetPosition = targetPos.position;
         entering = true;
         exiting = false;
+
+        // Ensure Animator always faces right on setup
+        if (animator != null)
+            animator.SetBool("FacingLeft", false);
     }
 
     public void FlyAway()

@@ -3,6 +3,7 @@ using UnityEngine;
 public class HoneyBit : MonoBehaviour
 {
     public bool isActive = false;
+    [SerializeField] private bool enableSfx = true;
 
     void Start()
     {
@@ -15,12 +16,6 @@ public class HoneyBit : MonoBehaviour
         UpdateSprite();
     }
 
-    //public void SetState(bool state)
-    //{
-    //    isActive = state;
-    //    UpdateSprite();
-    //}
-
     public int GetBitValue()
     {
         return isActive ? 1 : 0;
@@ -29,5 +24,13 @@ public class HoneyBit : MonoBehaviour
     private void UpdateSprite()
     {
         GetComponent<SpriteRenderer>().color = isActive ? Color.white : Color.grey;
+
+        if (enableSfx)
+        {
+            if (isActive)
+                SoundEffectManager.Play("bitOn");
+            else
+                SoundEffectManager.Play("bitOff");
+        }
     }
 }

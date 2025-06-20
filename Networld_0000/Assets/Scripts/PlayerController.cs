@@ -23,10 +23,18 @@ public class PlayerController : MonoBehaviour
     private float verticalInput;
     private float horizontalInput;
 
+    // SFX state tracking
+    private AudioSource sfxSource;
+    private bool isLoopingWalk = false;
+    private bool isLoopingClimb = false;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        sfxSource = gameObject.AddComponent<AudioSource>();
+        sfxSource.playOnAwake = false;
+        sfxSource.loop = false;
     }
 
     void Update()
@@ -61,6 +69,56 @@ public class PlayerController : MonoBehaviour
 
         anim.SetBool("isJumping", !isGrounded && !isClimbing);
         anim.SetBool("isClimbing", !isGrounded && isClimbing);
+
+        // --- WALK SFX LOOP ---
+        bool isWalking = Mathf.Abs(horizontalInput) > 0.1f && isGrounded && !isClimbing;
+        if (isWalking && !isLoopingWalk)
+        {
+            isLoopingWalk = true;
+            isLoopingClimb = false;
+            PlayRandomLoopingSfx("walk");
+        }
+        else if (!isWalking && isLoopingWalk)
+        {
+            isLoopingWalk = false;
+            sfxSource.Stop();
+        }
+
+        // --- CLIMB SFX LOOP ---
+        bool isClimbingMoving = isClimbing && (Mathf.Abs(verticalInput) > 0.1f || Mathf.Abs(horizontalInput) > 0.1f);
+        if (isClimbingMoving && !isLoopingClimb)
+        {
+            isLoopingClimb = true;
+            isLoopingWalk = false;
+            PlayRandomLoopingSfx("ladder");
+        }
+        else if ((!isClimbingMoving || !isClimbing) && isLoopingClimb)
+        {
+            isLoopingClimb = false;
+            sfxSource.Stop();
+        }
+
+        // When a clip finishes, play another random one if still walking/climbing
+        if (!sfxSource.isPlaying && (isLoopingWalk || isLoopingClimb))
+        {
+            if (isLoopingWalk)
+                PlayRandomLoopingSfx("walk");
+            else if (isLoopingClimb)
+                PlayRandomLoopingSfx("ladder");
+        }
+    }
+
+    private void PlayRandomLoopingSfx(string groupName)
+    {
+        var sfxLib = FindFirstObjectByType<SoundEffectLibrary>();
+        if (sfxLib == null) return;
+        AudioClip clip = sfxLib.GetRandomClip(groupName);
+        if (clip != null)
+        {
+            sfxSource.pitch = 2f; // Increase for faster playback
+            sfxSource.clip = clip;
+            sfxSource.Play();
+        }
     }
 
     private void FixedUpdate()
