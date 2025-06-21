@@ -20,16 +20,50 @@ public class GameplayManager : MonoBehaviour
 
     void Start()
     {
-        TextAsset levelJson = GameManager.instance.GetLevelJson();
-        if (levelJson != null)
+        //TextAsset levelJson = GameManager.instance.GetLevelJson();
+        //if (levelJson != null)
+        //{
+        //    LevelData levelData = JsonUtility.FromJson<LevelData>(levelJson.text);
+        //    ipPool = BuildIPPoolFromLevel(levelData);
+        //}
+        //else
+        //    ipPool = GeneratBeeIPs(5);
+        //beeManager.InitBeeWave(ipPool);
+        //beeManager.StartBeeSequence();
+
+        //if (GameManager.instance == null)
+        //{
+        //    Debug.LogError("GameManager.instance is null!");
+        //    return;
+        //}
+
+        //TextAsset levelJson = GameManager.instance.GetLevelJson();
+        //if (levelJson != null)
+        //{
+        //    LevelData levelData = JsonUtility.FromJson<LevelData>(levelJson.text);
+        //    ipPool = BuildIPPoolFromLevel(levelData);
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("levelJson is null, using generated IPs.");
+        //    ipPool = GeneratBeeIPs(5);
+        //}
+        //beeManager.InitBeeWave(ipPool);
+        //beeManager.StartBeeSequence();
+
+        LevelData levelData = LevelLoader.LoadCurrentLevel();
+        if (levelData != null && levelData.beeQueue != null && levelData.beeQueue.Count > 0)
         {
-            LevelData levelData = JsonUtility.FromJson<LevelData>(levelJson.text);
             ipPool = BuildIPPoolFromLevel(levelData);
         }
         else
+        {
+            Debug.LogWarning("LevelData or beeQueue is null/empty, using generated IPs.");
             ipPool = GeneratBeeIPs(5);
+        }
         beeManager.InitBeeWave(ipPool);
         beeManager.StartBeeSequence();
+
     }
 
     void Update()
