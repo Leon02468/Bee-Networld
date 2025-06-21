@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance; // Singleton instance
+    public static GameManager Instance; // Singleton instance
 
     public int selectedLevel;
     public TextAsset[] levelJsonFiles; // JSON file for level data
 
     void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else

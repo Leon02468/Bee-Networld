@@ -8,11 +8,11 @@ public class BeeController : MonoBehaviour
     private TextMeshPro ipText;
     private Transform visualRoot;
 
-    [SerializeField] private Vector3 activeScale = new Vector3(2f, 2f, 2f);
-    [SerializeField] private Vector3 idleScale = new Vector3(1.4f, 1.4f, 1.4f);
+    [SerializeField] private Vector3 activeScale;
+    [SerializeField] private Vector3 idleScale;
 
-    [SerializeField] private float enterSpeed = 2f;
-    [SerializeField] private float exitSpeed = 5f;
+    [SerializeField] private float enterSpeed;
+    [SerializeField] private float exitSpeed;
 
     private Vector3 targetPosition;
     private bool entering = true;

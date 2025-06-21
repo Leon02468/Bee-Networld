@@ -12,5 +12,7 @@ public class BeeEntry
 public class LevelData
 {
     public int levelNumber;
+    public int timeLimit;
+    public int maxScore;
     public List<BeeEntry> beeQueue;
 }

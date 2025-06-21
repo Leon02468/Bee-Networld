@@ -8,59 +8,34 @@ using System.Collections.Generic;
 public class GameplayManager : MonoBehaviour
 {
     [Header("UI References")]
-    //public TextMeshProUGUI clockText;
-
+    [SerializeField]private TextMeshProUGUI clockText;
+    [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private BeeManager beeManager;
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private TextMeshProUGUI playerText;
 
-    //private float timeLeft = 60f;
-    //private bool gameRunning = false;
+    private float timer = 70f;
+    private bool gameRunning;
     private string[] ipPool;
 
     void Start()
     {
-        //TextAsset levelJson = GameManager.instance.GetLevelJson();
-        //if (levelJson != null)
-        //{
-        //    LevelData levelData = JsonUtility.FromJson<LevelData>(levelJson.text);
-        //    ipPool = BuildIPPoolFromLevel(levelData);
-        //}
-        //else
-        //    ipPool = GeneratBeeIPs(5);
-        //beeManager.InitBeeWave(ipPool);
-        //beeManager.StartBeeSequence();
-
-        //if (GameManager.instance == null)
-        //{
-        //    Debug.LogError("GameManager.instance is null!");
-        //    return;
-        //}
-
-        //TextAsset levelJson = GameManager.instance.GetLevelJson();
-        //if (levelJson != null)
-        //{
-        //    LevelData levelData = JsonUtility.FromJson<LevelData>(levelJson.text);
-        //    ipPool = BuildIPPoolFromLevel(levelData);
-        //}
-        //else
-        //{
-        //    Debug.LogWarning("levelJson is null, using generated IPs.");
-        //    ipPool = GeneratBeeIPs(5);
-        //}
-        //beeManager.InitBeeWave(ipPool);
-        //beeManager.StartBeeSequence();
-
-        LevelData levelData = LevelLoader.LoadCurrentLevel();
-        if (levelData != null && levelData.beeQueue != null && levelData.beeQueue.Count > 0)
+        TextAsset levelJson = GameManager.Instance.GetLevelJson();
+        if (levelJson != null)
         {
+            LevelData levelData = JsonUtility.FromJson<LevelData>(levelJson.text);
+            timer = levelData.timeLimit;
+            scoreManager.SetMaxValue(levelData.maxScore);
             ipPool = BuildIPPoolFromLevel(levelData);
+            levelText.text = "LEVEL " + levelData.levelNumber;
         }
         else
         {
-            Debug.LogWarning("LevelData or beeQueue is null/empty, using generated IPs.");
             ipPool = GeneratBeeIPs(5);
+            levelText.text = "DEMO";
         }
+
+        StartGame();
         beeManager.InitBeeWave(ipPool);
         beeManager.StartBeeSequence();
 
@@ -68,7 +43,7 @@ public class GameplayManager : MonoBehaviour
 
     void Update()
     {
-        //if (!gameRunning) return;
+        if (!gameRunning) return;
 
         // TAB KEY to switch bee
         if (Keyboard.current.tabKey.wasPressedThisFrame)
@@ -76,17 +51,18 @@ public class GameplayManager : MonoBehaviour
             beeManager.CycleBee();
         }
 
-        //// Update timer
-        //timeLeft -= Time.deltaTime;
-        //if (timeLeft <= 0f)
-        //{
-        //    timeLeft = 0f;
-        //    EndGame();
-        //}
+        // Update timer
+        timer -= Time.deltaTime;
+        if (timer <= 0f)
+        {
+            timer = 0f;
+            EndGame();
+        }
 
-        //// Display time
-        //int seconds = Mathf.CeilToInt(timeLeft);
-        //clockText.text = "Time: " + seconds + "s";
+        // Display time
+        int minutes = Mathf.FloorToInt(timer / 60f);
+        int seconds = Mathf.FloorToInt(timer % 60f);
+        clockText.text = seconds >= 10 ? $"0{minutes}:{seconds}" : $"0{minutes}:0{seconds}";
 
         //// Check for Enter key and validate IP
         if (Keyboard.current.enterKey.wasPressedThisFrame)
@@ -139,10 +115,13 @@ public class GameplayManager : MonoBehaviour
         beeManager.RemoveAndReplaceCurrentBee();
     }
 
-    //void EndGame()
-    //{
-    //    gameRunning = false;
-    //    //replayButton.gameObject.SetActive(true);
-    //    Debug.Log("Game Over. Final Score: " + score);
-    //}
+    public void StartGame()
+    {
+        gameRunning = true;
+    }
+    void EndGame()
+    {
+        gameRunning = false;
+        Debug.Log("Game Over. Final Score: " + scoreManager.GetCurrentScore());
+    }
 }
