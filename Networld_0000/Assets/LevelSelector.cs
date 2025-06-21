@@ -11,7 +11,7 @@ public class LevelSelector : MonoBehaviour
 
     void Awake()
     {
-        ProgressManager.Instance.IsLevelComplete(level);
+        //ProgressManager.Instance.IsLevelComplete(level);
     }
 
     void Start()
