@@ -21,6 +21,15 @@ public class HoneyBit : MonoBehaviour
         return isActive ? 1 : 0;
     }
 
+    public void SetState(bool state)
+    {
+        if (isActive != state)
+        {
+            isActive = state;
+            UpdateSprite();
+        }
+    }
+
     private void UpdateSprite()
     {
         GetComponent<SpriteRenderer>().color = isActive ? Color.white : Color.grey;

@@ -316,10 +316,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 6.5
-  jumpForce: 15
+  jumpForce: 17.5
   climbSpeed: 5
-  beeText: {fileID: 0}
-  playerText: {fileID: 0}
 --- !u!95 &6093115209459602271
 Animator:
   serializedVersion: 7

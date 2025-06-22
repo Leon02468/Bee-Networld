@@ -15,4 +15,5 @@ public class LevelData
     public int timeLimit;
     public int maxScore;
     public List<BeeEntry> beeQueue;
+    public string initialPlayerIP;
 }

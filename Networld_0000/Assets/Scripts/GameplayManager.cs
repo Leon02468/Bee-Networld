@@ -12,11 +12,14 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private BeeManager beeManager;
     [SerializeField] private ScoreManager scoreManager;
-    [SerializeField] private TextMeshProUGUI playerText;
+    [SerializeField] private IpDisplay playerText;
 
-    private float timer = 70f;
+    private string startingIP;
+    private float timeLimit; //default time limit
+    private float timer; //play time left
     private bool gameRunning;
-    private string[] ipPool;
+    private string[] defaultIpPool; //default IP pool for bees
+    private string[] ipPool; //current IP pool for bees
 
     void Start()
     {
@@ -24,21 +27,22 @@ public class GameplayManager : MonoBehaviour
         if (levelJson != null)
         {
             LevelData levelData = JsonUtility.FromJson<LevelData>(levelJson.text);
-            timer = levelData.timeLimit;
+            startingIP = levelData.initialPlayerIP;
+            timeLimit = levelData.timeLimit;
             scoreManager.SetMaxValue(levelData.maxScore);
-            ipPool = BuildIPPoolFromLevel(levelData);
+            defaultIpPool = BuildIPPoolFromLevel(levelData);
             levelText.text = "LEVEL " + levelData.levelNumber;
         }
         else
         {
-            ipPool = GeneratBeeIPs(5);
+            startingIP = "0.0.0.0";
+            timeLimit = 70f;
+            scoreManager.SetMaxValue(100);
+            defaultIpPool = GeneratBeeIPs(5);
             levelText.text = "DEMO";
         }
 
         StartGame();
-        beeManager.InitBeeWave(ipPool);
-        beeManager.StartBeeSequence();
-
     }
 
     void Update()
@@ -104,7 +108,7 @@ public class GameplayManager : MonoBehaviour
             Debug.LogWarning("No active bee to check!"); return;
         }
 
-        string playerIP = playerText.text.Trim();
+        string playerIP = playerText.GetCurrentIP();
         string beeIP = beeManager.CurrentBee.targetIP;
 
         if (playerIP == beeIP)
@@ -117,11 +121,40 @@ public class GameplayManager : MonoBehaviour
 
     public void StartGame()
     {
+        playerText.SetInitialIP(startingIP);
+        timer = timeLimit;
+        ipPool = new string[defaultIpPool.Length];
+        ipPool = defaultIpPool;
         gameRunning = true;
+        beeManager.InitBeeWave(ipPool);
+        beeManager.StartBeeSequence();
     }
-    void EndGame()
+    private void EndGame()
     {
         gameRunning = false;
         Debug.Log("Game Over. Final Score: " + scoreManager.GetCurrentScore());
+    }
+
+    //Send to Hung: Add one more reset button for this method
+    public void ResetGame()
+    {
+        gameRunning = false;
+        timer = timeLimit;
+        scoreManager.ResetScore();
+        beeManager.ClearAllBees();
+        StartGame();
+    }
+
+    // Minh part, don't touch this, can add music or UI to other functions and Minh
+    // will use them to these parts
+    private void Victory()
+    {
+        // Add victory logic
+        // Mark the game as completed
+    }
+
+    private void Lose()
+    {
+        // Add lose logic
     }
 }

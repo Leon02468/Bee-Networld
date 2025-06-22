@@ -17,11 +17,12 @@ public class OctetManager : MonoBehaviour
         return decimalValue;
     }
 
-    //public void SetBits(bool[] bitStates)
-    //{
-    //    for (int i = 0; i < 8 && i < bitStates.Length; i++)
-    //    {
-    //        honeyBits[i].SetState(bitStates[i]);
-    //    }
-    //}
+    public void SetBitsFromValue(int value)
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            bool bitState = (value & (1 << i)) != 0;
+            honeyBits[i].SetState(bitState);
+        }
+    }
 }

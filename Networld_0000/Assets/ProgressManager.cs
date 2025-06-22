@@ -21,6 +21,7 @@ public class ProgressManager : MonoBehaviour
         }
 
         path = Path.Combine(Application.persistentDataPath, "gameProgress.json");
+        Debug.Log("Progress file path: " + path);
         LoadProgress();
     }
 

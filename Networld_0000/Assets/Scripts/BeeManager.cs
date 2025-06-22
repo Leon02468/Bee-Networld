@@ -115,4 +115,15 @@ public class BeeManager : MonoBehaviour
         yield return new WaitForSeconds(delaySpawn);
         SpawnBee(slotIndex);
     }
+
+    public void ClearAllBees()
+    {
+        foreach (var bee in activeBees)
+        {
+            if (bee != null)
+                Destroy(bee.gameObject);
+        }
+        activeBees.Clear();
+        currentBeeIndex = -1;
+    }
 }
