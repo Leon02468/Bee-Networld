@@ -35,6 +35,32 @@ public class PlayerController : MonoBehaviour
         sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.playOnAwake = false;
         sfxSource.loop = false;
+
+        // Sync SFX volume with SoundEffectManager
+        var sfxManager = FindFirstObjectByType<SoundEffectManager>();
+        if (sfxManager != null)
+        {
+            // Set initial volume
+            sfxSource.volume = sfxManager.GetCurrentVolume();
+            // Register for future volume changes
+            sfxManager.RegisterSfxVolumeListener(SetSfxVolume);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        var sfxManager = FindFirstObjectByType<SoundEffectManager>();
+        if (sfxManager != null)
+        {
+            sfxManager.UnregisterSfxVolumeListener(SetSfxVolume);
+        }
+    }
+
+    // This method will be called by the SFX manager when the slider changes
+    public void SetSfxVolume(float volume)
+    {
+        if (sfxSource != null)
+            sfxSource.volume = volume;
     }
 
     void Update()
