@@ -13,6 +13,7 @@ public class LevelData
 {
     public int levelNumber;
     public int timeLimit;
+    public int minScore;
     public int maxScore;
     public List<BeeEntry> beeQueue;
     public string initialPlayerIP;

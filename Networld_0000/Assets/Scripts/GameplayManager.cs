@@ -17,7 +17,9 @@ public class GameplayManager : MonoBehaviour
     private string startingIP;
     private float timeLimit; //default time limit
     private float timer; //play time left
+    private int minScore;
     private bool gameRunning;
+    private bool gameEnded;
     private string[] defaultIpPool; //default IP pool for bees
     private string[] ipPool; //current IP pool for bees
 
@@ -47,13 +49,7 @@ public class GameplayManager : MonoBehaviour
 
     void Update()
     {
-        if (!gameRunning) return;
-
-        // TAB KEY to switch bee
-        if (Keyboard.current.tabKey.wasPressedThisFrame)
-        {
-            beeManager.CycleBee();
-        }
+        if (!gameRunning || gameEnded) return;
 
         // Update timer
         timer -= Time.deltaTime;
@@ -68,6 +64,12 @@ public class GameplayManager : MonoBehaviour
         int seconds = Mathf.FloorToInt(timer % 60f);
         clockText.text = seconds >= 10 ? $"0{minutes}:{seconds}" : $"0{minutes}:0{seconds}";
 
+        // TAB KEY to switch bee
+        if (Keyboard.current.tabKey.wasPressedThisFrame)
+        {
+            beeManager.CycleBee();
+        }
+
         //// Check for Enter key and validate IP
         if (Keyboard.current.enterKey.wasPressedThisFrame)
         {
@@ -76,55 +78,13 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    private string[] GeneratBeeIPs(int count)
-    {
-        string[] results = new string[count];
-        for (int i = 0; i < count; i++)
-        {
-            results[i] = $"{Random.Range(1, 10)}.{Random.Range(0, 10)}.{Random.Range(0, 10)}.{Random.Range(1, 10)}";
-        }
-        return results;
-    }
-
-    private string[] BuildIPPoolFromLevel(LevelData level)
-    {
-        List<string> ipPool = new List<string>();
-
-        foreach (var entry in level.beeQueue)
-        {
-            for(int i = 0; i < entry.count; i++)
-            {
-                ipPool.Add(entry.ip);
-            }
-        }
-
-        return ipPool.ToArray();
-    }
-
-    private void CheckAndSendBee()
-    {
-        if (beeManager.CurrentBee == null)
-        {
-            Debug.LogWarning("No active bee to check!"); return;
-        }
-
-        string playerIP = playerText.GetCurrentIP();
-        string beeIP = beeManager.CurrentBee.targetIP;
-
-        if (playerIP == beeIP)
-        {
-            scoreManager.AddScore(10);
-        }
-
-        beeManager.RemoveAndReplaceCurrentBee();
-    }
-
     public void StartGame()
     {
         playerText.SetInitialIP(startingIP);
         timer = timeLimit;
         ipPool = new string[defaultIpPool.Length];
-        ipPool = defaultIpPool;
+        defaultIpPool.CopyTo(ipPool, 0);
+        ShuffleIpQueue(ipPool);
         gameRunning = true;
         beeManager.InitBeeWave(ipPool);
         beeManager.StartBeeSequence();
@@ -156,5 +116,59 @@ public class GameplayManager : MonoBehaviour
     private void Lose()
     {
         // Add lose logic
+    }
+
+    private string[] GeneratBeeIPs(int count)
+    {
+        string[] results = new string[count];
+        for (int i = 0; i < count; i++)
+        {
+            results[i] = $"{Random.Range(1, 10)}.{Random.Range(0, 10)}.{Random.Range(0, 10)}.{Random.Range(1, 10)}";
+        }
+        return results;
+    }
+
+    private string[] BuildIPPoolFromLevel(LevelData level)
+    {
+        List<string> ipPool = new List<string>();
+
+        foreach (var entry in level.beeQueue)
+        {
+            for (int i = 0; i < entry.count; i++)
+            {
+                ipPool.Add(entry.ip);
+            }
+        }
+
+        return ipPool.ToArray();
+    }
+
+    private void ShuffleIpQueue(string[] array)
+    {
+        for (int i = array.Length - 1; i > 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            string temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+    }
+
+    private void CheckAndSendBee()
+    {
+        if (beeManager.CurrentBee == null)
+        {
+            Debug.LogWarning("No active bee to check!"); return;
+        }
+
+        string playerIP = playerText.GetCurrentIP();
+        string beeIP = beeManager.CurrentBee.targetIP;
+
+        if (playerIP == beeIP)
+        {
+            scoreManager.AddScore(10);
+        }
+
+        beeManager.RemoveAndReplaceCurrentBee();
     }
 }
