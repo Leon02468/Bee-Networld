@@ -1,65 +1,91 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Needed for exiting the game in builds
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PauseMenuController : MonoBehaviour
 {
-    [SerializeField] private GameObject menuPanel; // Assign the Menu panel in the Inspector
-    private bool isPaused = false;
+    [Header("Pause Menu UI")]
+    public GameObject menuCanvas;      // Reference to the MenuCanvas (second layer)
+    public GameObject resumeButton;
+    public GameObject exitButton;
+    public GameObject settingsButton;
 
-    void Start()
+    [Header("Music Settings UI")]
+    public GameObject musicSettingsCanvas;
+    public Button backButton;
+
+    private void Start()
     {
-        if (menuPanel != null)
-            menuPanel.SetActive(false);
-        Time.timeScale = 1f;
+        // Hide only the menu canvas at game start
+        if (menuCanvas != null)
+            menuCanvas.SetActive(false);
+
+        // Ensure MusicSettings is hidden at start
+        if (musicSettingsCanvas != null)
+            musicSettingsCanvas.SetActive(false);
+
+        if (backButton != null)
+            backButton.onClick.AddListener(OnBackFromMusicSettings);
     }
 
-    void Update()
+    private void Update()
     {
+        // Disable ESC key handling when music settings are open
+        if (musicSettingsCanvas != null && musicSettingsCanvas.activeSelf)
+            return;
+
+        // ESC key toggles the menu canvas
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused)
+            if (menuCanvas != null && !menuCanvas.activeSelf)
             {
-                ResumeGame();
+                // Show menu canvas and pause game
+                menuCanvas.SetActive(true);
+                Time.timeScale = 0f;
+                if (musicSettingsCanvas != null) musicSettingsCanvas.SetActive(false);
             }
-            else
+            else if (menuCanvas != null && menuCanvas.activeSelf)
             {
-                PauseGame();
+                // Hide menu canvas and resume game
+                menuCanvas.SetActive(false);
+                Time.timeScale = 1f;
             }
         }
     }
 
-    public void PauseGame()
+    public void OnResumeClick()
     {
-        isPaused = true;
-        if (menuPanel != null)
-            menuPanel.SetActive(true);
-        Time.timeScale = 0f;
-    }
-
-    public void ResumeGame()
-    {
-        isPaused = false;
-        if (menuPanel != null)
-            menuPanel.SetActive(false);
+        // Hide the menu canvas (second shell)
+        if (menuCanvas != null)
+            menuCanvas.SetActive(false);
         Time.timeScale = 1f;
     }
 
-    // Assign this to the Resume button's OnClick event
-    public void OnResumeButton()
+    public void OnExitClick()
     {
-        ResumeGame();
+        Time.timeScale = 1f; // Ensure game is unpaused before loading
+        SceneManager.LoadSceneAsync(0); // Load the start menu scene (index 0)
     }
 
-    // Assign this to the Exit button's OnClick event
-    public void OnExitButton()
+    public void OnSettingsClick()
     {
-        //#if UNITY_EDITOR
-        //        UnityEditor.EditorApplication.isPlaying = false;
-        //#else
-        //        Application.Quit();
-        //#endif
+        // Hide only the buttons
+        if (resumeButton != null) resumeButton.SetActive(false);
+        if (exitButton != null) exitButton.SetActive(false);
+        if (settingsButton != null) settingsButton.SetActive(false);
 
-        Time.timeScale = 1f;
-        SceneManager.LoadSceneAsync(0);
+        // Show MusicSettings canvas
+        if (musicSettingsCanvas != null) musicSettingsCanvas.SetActive(true);
+    }
+
+    public void OnBackFromMusicSettings()
+    {
+        // Show the buttons
+        if (resumeButton != null) resumeButton.SetActive(true);
+        if (exitButton != null) exitButton.SetActive(true);
+        if (settingsButton != null) settingsButton.SetActive(true);
+
+        // Hide MusicSettings canvas
+        if (musicSettingsCanvas != null) musicSettingsCanvas.SetActive(false);
     }
 }

@@ -1,56 +1,100 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SoundEffectManager : MonoBehaviour
 {
     private static SoundEffectManager instance;
-    private static AudioSource audioSource;
-    private static SoundEffectLibrary soundEffectLibrary;
+    private AudioSource audioSource;
+    private SoundEffectLibrary soundEffectLibrary;
+
     [SerializeField] private Slider sfxSlider;
+
+    // Listeners for SFX volume changes
+    private List<Action<float>> sfxVolumeListeners = new List<Action<float>>();
+
     private void Awake()
     {
-        // Ensure only one instance of SoundEffectManager exists
         if (instance == null)
         {
             instance = this;
             audioSource = GetComponent<AudioSource>();
             soundEffectLibrary = GetComponent<SoundEffectLibrary>();
-            DontDestroyOnLoad(gameObject); // Keep this object across scenes
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destroy(gameObject); // Destroy duplicate instances
+            Destroy(gameObject);
         }
+    }
+
+    void Start()
+    {
+        if (sfxSlider != null)
+        {
+            sfxSlider.onValueChanged.AddListener(delegate { OnSliderValueChanged(); });
+            sfxSlider.value = audioSource != null ? audioSource.volume : 1f;
+        }
+    }
+
+    public void SetSFXSlider(Slider slider)
+    {
+        if (sfxSlider != null)
+            sfxSlider.onValueChanged.RemoveAllListeners();
+
+        sfxSlider = slider;
+
+        if (sfxSlider != null)
+        {
+            sfxSlider.value = audioSource != null ? audioSource.volume : 1f;
+            sfxSlider.onValueChanged.AddListener(delegate { OnSliderValueChanged(); });
+            SetVolume(sfxSlider.value);
+        }
+    }
+
+    public void OnSliderValueChanged()
+    {
+        if (sfxSlider != null)
+            SetVolume(sfxSlider.value);
+    }
+
+    public void SetVolume(float volume)
+    {
+        if (audioSource != null)
+            audioSource.volume = volume;
+
+        // Notify all listeners
+        foreach (var listener in sfxVolumeListeners)
+            listener?.Invoke(volume);
+    }
+
+    public float GetCurrentVolume()
+    {
+        return audioSource != null ? audioSource.volume : 1f;
+    }
+
+    public void RegisterSfxVolumeListener(Action<float> listener)
+    {
+        if (!sfxVolumeListeners.Contains(listener))
+            sfxVolumeListeners.Add(listener);
+    }
+
+    public void UnregisterSfxVolumeListener(Action<float> listener)
+    {
+        if (sfxVolumeListeners.Contains(listener))
+            sfxVolumeListeners.Remove(listener);
     }
 
     public static void Play(string soundName)
     {
-        if (soundEffectLibrary != null) // Ensure soundEffectLibrary is initialized  
+        if (instance == null || instance.soundEffectLibrary == null || instance.audioSource == null)
+            return;
+
+        AudioClip audioClip = instance.soundEffectLibrary.GetRandomClip(soundName);
+        if (audioClip != null)
         {
-            AudioClip audioClip = soundEffectLibrary.GetRandomClip(soundName); // Use the instance reference  
-            if (audioClip != null && audioSource != null)
-            {
-                audioSource.PlayOneShot(audioClip);
-            }
+            instance.audioSource.PlayOneShot(audioClip);
         }
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        sfxSlider.onValueChanged.AddListener(delegate { OnValueChanged(); });
-    }
-
-    public static void SetVolume(float volume)
-    {
-        if (audioSource != null)
-        {
-            audioSource.volume = volume;
-        }
-    }
-
-    public void OnValueChanged()
-    {
-        SetVolume(sfxSlider.value);
     }
 }
