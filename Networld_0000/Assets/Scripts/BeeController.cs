@@ -73,6 +73,12 @@ public class BeeController : MonoBehaviour
             animator.SetBool("FacingLeft", false);
     }
 
+    public void MoveTo(Vector3 newTarget)
+    {
+        targetPosition = newTarget;
+        entering = true;
+    }
+
     public void FlyAway()
     {
         exiting = true;

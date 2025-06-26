@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -19,7 +20,6 @@ public class GameplayManager : MonoBehaviour
     private float timer; //play time left
     private int minScore;
     private bool gameRunning;
-    private bool gameEnded;
     private string[] defaultIpPool; //default IP pool for bees
     private string[] ipPool; //current IP pool for bees
 
@@ -31,6 +31,7 @@ public class GameplayManager : MonoBehaviour
             LevelData levelData = JsonUtility.FromJson<LevelData>(levelJson.text);
             startingIP = levelData.initialPlayerIP;
             timeLimit = levelData.timeLimit;
+            minScore = levelData.minScore;
             scoreManager.SetMaxValue(levelData.maxScore);
             defaultIpPool = BuildIPPoolFromLevel(levelData);
             levelText.text = "LEVEL " + levelData.levelNumber;
@@ -39,6 +40,7 @@ public class GameplayManager : MonoBehaviour
         {
             startingIP = "0.0.0.0";
             timeLimit = 70f;
+            minScore = 20;
             scoreManager.SetMaxValue(100);
             defaultIpPool = GeneratBeeIPs(5);
             levelText.text = "DEMO";
@@ -49,13 +51,14 @@ public class GameplayManager : MonoBehaviour
 
     void Update()
     {
-        if (!gameRunning || gameEnded) return;
+        if (!gameRunning) return;
 
         // Update timer
         timer -= Time.deltaTime;
-        if (timer <= 0f)
+        if (timer <= 0f || beeManager.isOutOfBees())
         {
-            timer = 0f;
+            if(timer < 0f)
+                timer = 0f;
             EndGame();
         }
 
@@ -93,6 +96,11 @@ public class GameplayManager : MonoBehaviour
     {
         gameRunning = false;
         Debug.Log("Game Over. Final Score: " + scoreManager.GetCurrentScore());
+
+        if(scoreManager.GetCurrentScore() >= minScore)
+            Victory();
+        else
+            Lose();
     }
 
     //Send to Hung: Add one more reset button for this method
@@ -110,7 +118,7 @@ public class GameplayManager : MonoBehaviour
     private void Victory()
     {
         // Add victory logic
-        // Mark the game as completed
+        ProgressManager.Instance.MarkLevelComplete(GameManager.Instance.selectedLevel);
     }
 
     private void Lose()

@@ -12,7 +12,7 @@ public class BeeManager : MonoBehaviour
     private Queue<string> beeIPQueue = new Queue<string>();
     private List<BeeController> activeBees = new List<BeeController>();
     private int currentBeeIndex = 0;
-    private float delaySpawn = 2.5f;
+    private float delaySpawn = 1.25f;
 
     public BeeController CurrentBee => (activeBees.Count > 0 && currentBeeIndex >= 0) ? activeBees[currentBeeIndex] : null;
 
@@ -87,17 +87,24 @@ public class BeeManager : MonoBehaviour
         if (CurrentBee == null) return;
         
         int slotIndex = currentBeeIndex;
+
         CurrentBee.FlyAway();
         activeBees.RemoveAt(slotIndex);
+
+        for(int i = slotIndex; i < activeBees.Count; i++)
+        {
+            activeBees[i].MoveTo(beeTargetPositions[i].position);
+        }
 
         //fill the gap
         if (beeIPQueue.Count > 0)
         {
-            StartCoroutine(SpawnBeeDelayed(slotIndex));
-
             //fix selection
             if (activeBees.Count > 0)
+            {
+                StartCoroutine(SpawnBeeDelayed(activeBees.Count));
                 SetActiveBee(currentBeeIndex % activeBees.Count);
+            }
         }
         else
         {
@@ -125,5 +132,10 @@ public class BeeManager : MonoBehaviour
         }
         activeBees.Clear();
         currentBeeIndex = -1;
+    }
+
+    public bool isOutOfBees()
+    {
+        return beeIPQueue.Count == 0 && activeBees.Count == 0;
     }
 }
