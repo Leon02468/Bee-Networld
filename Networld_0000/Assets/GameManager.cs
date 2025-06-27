@@ -27,4 +27,9 @@ public class GameManager : MonoBehaviour
                 return levelJsonFiles[selectedLevel - 1];
         return null;
     }
+
+    public string GetCurrentLevelName()
+    {
+        return "Level " + selectedLevel;
+    }
 }

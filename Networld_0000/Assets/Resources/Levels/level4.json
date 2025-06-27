@@ -1,12 +1,12 @@
 {
   "levelNumber": 4,
-  "timeLimit": 240,
+  "timeLimit": 120,
   "minScore": 40,
   "maxScore": 70,
   "beeQueue": [
-    { "ip": "192.168.1.5", "count": 2 },
+    { "ip": "10.0.0.1", "count": 2 },
     { "ip": "192.168.1.10", "count": 3 },
-    { "ip": "10.0.0.5", "count": 1 }
+    { "ip": "10.0.0.5", "count": 5 }
   ],
-  "initialPlayerIP": "0.0.0.0"
+  "initialPlayerIP": "10.0.0.0"
 }
