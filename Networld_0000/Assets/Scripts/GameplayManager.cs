@@ -13,12 +13,16 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private BeeManager beeManager;
     [SerializeField] private ScoreManager scoreManager;
+    [SerializeField] private EndGameUIManager endGameUIManager;
     [SerializeField] private IpDisplay playerText;
 
+    private int levelNumber;
     private string startingIP;
     private float timeLimit; //default time limit
     private float timer; //play time left
     private int minScore;
+    private int middleScore;
+    private int maxScore;
     private bool gameRunning;
     private string[] defaultIpPool; //default IP pool for bees
     private string[] ipPool; //current IP pool for bees
@@ -29,18 +33,24 @@ public class GameplayManager : MonoBehaviour
         if (levelJson != null)
         {
             LevelData levelData = JsonUtility.FromJson<LevelData>(levelJson.text);
+            levelNumber = levelData.levelNumber;
             startingIP = levelData.initialPlayerIP;
             timeLimit = levelData.timeLimit;
             minScore = levelData.minScore;
+            middleScore = levelData.middleScore;
+            maxScore = levelData.maxScore;
             scoreManager.SetMaxValue(levelData.maxScore);
             defaultIpPool = BuildIPPoolFromLevel(levelData);
             levelText.text = "LEVEL " + levelData.levelNumber;
         }
         else
         {
+            levelNumber = 0;
             startingIP = "0.0.0.0";
             timeLimit = 70f;
-            minScore = 20;
+            minScore = 9999;
+            middleScore = 9999;
+            maxScore = 9999;
             scoreManager.SetMaxValue(100);
             defaultIpPool = GeneratBeeIPs(5);
             levelText.text = "DEMO";
@@ -94,36 +104,29 @@ public class GameplayManager : MonoBehaviour
     }
     private void EndGame()
     {
+        int currentScore = scoreManager.GetCurrentScore();
+        bool isCompleted = currentScore > minScore ? true : false;
+        int stars = CalculateStars();
         gameRunning = false;
-        Debug.Log("Game Over. Final Score: " + scoreManager.GetCurrentScore());
-
-        if(scoreManager.GetCurrentScore() >= minScore)
-            Victory();
-        else
-            Lose();
+        endGameUIManager.ShowEndGamePanel(
+            isCompleted,
+            levelNumber,
+            currentScore,
+            stars,
+            (int)timer,
+            (int)(timeLimit - timer)
+        );
     }
 
     //Send to Hung: Add one more reset button for this method
     public void ResetGame()
     {
+        endGameUIManager.SetToFalse();
         gameRunning = false;
         timer = timeLimit;
         scoreManager.ResetScore();
         beeManager.ClearAllBees();
         StartGame();
-    }
-
-    // Minh part, don't touch this, can add music or UI to other functions and Minh
-    // will use them to these parts
-    private void Victory()
-    {
-        // Add victory logic
-        ProgressManager.Instance.MarkLevelComplete(GameManager.Instance.selectedLevel);
-    }
-
-    private void Lose()
-    {
-        // Add lose logic
     }
 
     private string[] GeneratBeeIPs(int count)
@@ -178,5 +181,15 @@ public class GameplayManager : MonoBehaviour
         }
 
         beeManager.RemoveAndReplaceCurrentBee();
+    }
+
+    private int CalculateStars()
+    {
+        int score = scoreManager.GetCurrentScore();
+
+        if (score >= maxScore) return 3;
+        else if (score >= middleScore) return 2;
+        else if (score >= minScore) return 1;
+        else return 0;
     }
 }

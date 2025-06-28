@@ -2,6 +2,7 @@
   "levelNumber": 4,
   "timeLimit": 120,
   "minScore": 40,
+  "middleScore": 60,
   "maxScore": 70,
   "beeQueue": [
     { "ip": "10.0.0.1", "count": 2 },

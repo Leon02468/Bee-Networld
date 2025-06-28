@@ -21,6 +21,7 @@ public class LevelSelector : MonoBehaviour
             LevelText.text = level.ToString(); // Set the text to the level number
 
         SetUI();
+        Debug.Log("Completed: " + ProgressManager.Instance.IsLevelComplete(level));
     }
 
     public void OpenScene()

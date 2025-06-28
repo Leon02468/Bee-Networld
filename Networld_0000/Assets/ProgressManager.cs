@@ -39,18 +39,52 @@ public class ProgressManager : MonoBehaviour
         }
     }
 
+    public int GetHighScore(int levelNumber)
+    {
+        return GetOrCreateLevelProgress(levelNumber).highScore;
+    }
+
+    public int GetStars(int levelNumber)
+    {
+        return GetOrCreateLevelProgress(levelNumber).stars;
+    }
+
+    public void SetScoreAndStars(int levelNumber, int score, int stars)
+    {
+        LevelProgress levelProgress = GetOrCreateLevelProgress(levelNumber);
+        levelProgress.highScore = Mathf.Max(levelProgress.highScore, score);
+        levelProgress.stars = Mathf.Max(levelProgress.stars, stars);
+        SaveProgress();
+    }
+
+    private LevelProgress GetOrCreateLevelProgress(int levelNumber)
+    {
+        LevelProgress levelProgress = gameProgress.completedLevels.Find(l => l.levelNumber == levelNumber);
+
+        if (levelProgress == null)
+        {
+            levelProgress = new LevelProgress { levelNumber = levelNumber };
+            gameProgress.completedLevels.Add(levelProgress);
+        }
+
+        return levelProgress;
+    }
+
     public void MarkLevelComplete(int levelNumber)
     {
-        if (!gameProgress.completedLevels.Contains(levelNumber))
+        LevelProgress levelProgress = GetOrCreateLevelProgress(levelNumber);
+
+        if (!gameProgress.completedLevels.Contains(levelProgress))
         {
-            gameProgress.completedLevels.Add(levelNumber);
+            gameProgress.completedLevels.Add(levelProgress);
             SaveProgress();
         }
     }
 
     public bool IsLevelComplete(int levelNumber)
     {
-        return levelNumber == 0 || levelNumber == 1 || gameProgress.completedLevels.Contains(levelNumber - 1);
+        LevelProgress levelProgress = gameProgress.completedLevels.Find(l => l.levelNumber == levelNumber - 1);
+        return levelNumber == 0 || levelNumber == 1 || gameProgress.completedLevels.Contains(levelProgress);
     }
 
     private void SaveProgress()
