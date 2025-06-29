@@ -1,18 +1,30 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneMusicSetter : MonoBehaviour
 {
-    private string levelName; // Set this in the Inspector
+    private string levelName;
 
     void Start()
     {
-        if(GameManager.Instance != null)
-            levelName = GameManager.Instance.GetCurrentLevelName();
-
         var musicManager = FindFirstObjectByType<MusicManager>();
-        if (musicManager != null && !string.IsNullOrEmpty(levelName))
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        // Exception: If we're in the start menu scene, play start menu music
+        if (sceneName == "Start Menu")
         {
-            musicManager.PlayMusicForLevel(levelName);
+            if (musicManager != null)
+            {
+                musicManager.PlayMusicForLevel("Start Menu");
+            }
+        }
+        else if (GameManager.Instance != null)
+        {
+            levelName = GameManager.Instance.GetCurrentLevelName();
+            if (musicManager != null && !string.IsNullOrEmpty(levelName))
+            {
+                musicManager.PlayMusicForLevel(levelName);
+            }
         }
     }
 }
