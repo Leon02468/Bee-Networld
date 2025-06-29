@@ -16,18 +16,24 @@ EditorBuildSettings:
     guid: 7d04777a3e1b7434498e0eb15279d365
   - enabled: 1
     path: Assets/Scenes/Level 1.unity
+    guid: 144fd3c3e7c31614ab0c6b0dccd33da5
+  - enabled: 1
+    path: Assets/Scenes/Level 1 - test.unity
     guid: 9c64c0dd412e288409c860e7cd14ac9e
   - enabled: 1
+    path: Assets/Scenes/Level 2.unity
+    guid: 83a92a72adfac9b438d736acec8ef9a6
+  - enabled: 0
     path: Assets/Scenes/Level 3.unity
-    guid: 8bf6c03189dcca540a7768f8e800a1d8
-  - enabled: 1
-    path: Assets/Scenes/Level 4.unity
     guid: a5864b30ade038e4d84116479a87f13f
   - enabled: 1
-    path: Assets/Scenes/Level 5.unity
+    path: Assets/Scenes/Level 3.unity
+    guid: a5864b30ade038e4d84116479a87f13f
+  - enabled: 1
+    path: Assets/Scenes/Level 4.unity
     guid: 4a173080526e9074fa7b4127b9cc4b27
   - enabled: 1
-    path: Assets/Scenes/Level 6.unity
+    path: Assets/Scenes/Level 5.unity
     guid: 49c260e3264ac9e439002eae6f744edd
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
