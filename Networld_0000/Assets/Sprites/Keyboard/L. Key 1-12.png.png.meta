@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 89421cf8b2a5c634aa42f4365af709c8
+guid: e52afbd695d3a4c448e92bf3e37003ad
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8538893382848708672
-    second: Rounded10px@4x_0
+      213: 8807673099502737182
+    second: L. Key 1-12.png_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -73,7 +73,7 @@ TextureImporter:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
-    resizeAlgorithm: 0
+    resizeAlgorithm: 1
     textureFormat: -1
     textureCompression: 0
     compressionQuality: 50
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Rounded10px@4x_0
+      name: L. Key 1-12.png_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 80
-        height: 80
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 40, y: 40, z: 40, w: 40}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 04081ab6a4e308670800000000000000
-      internalID: 8538893382848708672
+      spriteID: e17df99d4042b3a70800000000000000
+      internalID: 8807673099502737182
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 6b9d9fd801b991c46bb9fa6a303b6bd2
+    spriteID: 6c7cd8c64bb869140bbbd54db11134de
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Rounded10px@4x_0: 8538893382848708672
+      L. Key 1-12.png_0: 8807673099502737182
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
