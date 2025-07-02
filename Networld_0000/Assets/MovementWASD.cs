@@ -16,6 +16,8 @@ public class WASDKeyVisualizer : MonoBehaviour
     public KeyImages dKey;
     public KeyImages eKey;
     public KeyImages spaceKey;
+    public KeyImages enterKey;
+
 
     void Update()
     {
@@ -25,6 +27,8 @@ public class WASDKeyVisualizer : MonoBehaviour
         UpdateKey(dKey, KeyCode.D);
         UpdateKey(eKey, KeyCode.E);
         UpdateKey(spaceKey, KeyCode.Space);
+        UpdateKey(enterKey, KeyCode.Return);
+
     }
 
     void UpdateKey(KeyImages key, KeyCode code)

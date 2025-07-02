@@ -3,6 +3,7 @@ using TMPro;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Text.RegularExpressions;
 
 public class Dialog : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class Dialog : MonoBehaviour
     private int index;
     private Coroutine typingCoroutine;
     private bool isTyping;
+
+    // Hyphenation settings
+    private const int MinWordLengthForHyphenation = 8; // Only hyphenate words this long or longer
+    private const int HyphenationChunkSize = 5;        // Insert soft hyphen every N chars
 
     void Start()
     {
@@ -44,7 +49,10 @@ public class Dialog : MonoBehaviour
         {
             if (typingCoroutine != null)
                 StopCoroutine(typingCoroutine);
-            typingCoroutine = StartCoroutine(TypeLine(lines[index]));
+
+            // Preprocess the line for hyphenation
+            string processedLine = HyphenateLongWords(lines[index]);
+            typingCoroutine = StartCoroutine(TypeLine(processedLine));
 
             // Move the dialog panel to the corresponding destination
             if (dialogMover != null)
@@ -60,6 +68,26 @@ public class Dialog : MonoBehaviour
         }
     }
 
+    // Hyphenate long words in a line using soft hyphens (\u00AD)
+    private string HyphenateLongWords(string line)
+    {
+        // Regex: match words with MinWordLengthForHyphenation or more characters
+        return Regex.Replace(line, @"\w{" + MinWordLengthForHyphenation + @",}", match =>
+        {
+            string word = match.Value;
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            int i = 0;
+            while (i + HyphenationChunkSize < word.Length)
+            {
+                sb.Append(word.Substring(i, HyphenationChunkSize));
+                sb.Append("\u00AD"); // soft hyphen
+                i += HyphenationChunkSize;
+            }
+            sb.Append(word.Substring(i)); // append the rest
+            return sb.ToString();
+        });
+    }
+
     IEnumerator TypeLine(string line)
     {
         isTyping = true;
@@ -69,6 +97,8 @@ public class Dialog : MonoBehaviour
             dialogText.text += letter;
             yield return new WaitForSeconds(textSpeed);
         }
+        // Force layout rebuild after the line is complete
+        LayoutRebuilder.ForceRebuildLayoutImmediate(dialogText.rectTransform);
         isTyping = false;
     }
 
@@ -76,7 +106,9 @@ public class Dialog : MonoBehaviour
     {
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
-        dialogText.text = lines[index];
+        // Preprocess for hyphenation here as well
+        dialogText.text = HyphenateLongWords(lines[index]);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(dialogText.rectTransform);
         isTyping = false;
     }
 
